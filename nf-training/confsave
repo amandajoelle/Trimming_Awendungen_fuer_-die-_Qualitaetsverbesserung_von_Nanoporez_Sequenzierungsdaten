@@ -1,0 +1,23 @@
+
+/*profiles {
+	foo {
+		autoMounts = true
+		docker.enabled = true
+		singularity.enabled = true
+		singularity.cacheDir = "$PWD"
+		process.container = 'file:////scratch/daff/mw/gatk_singularity/gatk_latest.sif'
+	}
+}
+
+singularity {
+    process.container = 'nextflow/rnaseq-nf:latest'
+    singularity.enabled = true
+    singularity.autoMounts = true
+  }
+
+
+process.container = 'nextflow/rnaseq-nf'
+docker.runOptions = '-u $(id -u):$(id -g)'
+docker.enabled = true
+docker.temp = 'auto'
+

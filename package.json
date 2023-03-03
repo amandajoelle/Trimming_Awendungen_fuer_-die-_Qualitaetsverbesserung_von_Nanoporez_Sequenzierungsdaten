@@ -1,0 +1,23 @@
+{
+  "name": "nextflow-test",
+  "version": "1.0.0",
+  "description": "Pipeline to analyse and make a data quality control of an RNA-Genom using two different assembler frameworks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amandajoelle/nextflow-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amandajoelle/nextflow-test/issues"
+  },
+  "homepage": "https://github.com/amandajoelle/nextflow-test#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "express": "^4.18.2"
+  }
+}
