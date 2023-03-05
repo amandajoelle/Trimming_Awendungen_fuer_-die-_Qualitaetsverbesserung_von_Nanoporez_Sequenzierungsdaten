@@ -24,7 +24,7 @@ process prinseq {
     """
 }
 
-process convert {
+/*process convert {
   input:
     path('trimmed.fastq')
   output:
@@ -33,7 +33,7 @@ process convert {
     """
    sed -n '1~4s/^@/>/p;2~4p'  ${params.input} > trimmed.fasta
     """
-}
+}*/
 
 // Étape de nettoyage avec nanofilt
 
@@ -116,9 +116,9 @@ process compare {
 workflow {
   //scatter(params.input)
   prinseq (params.input)
-  convert(prinseq.out).view()
-  run_nanofilt(params.input).view()
-  flye_prinseq(convert.out).view()
+  //convert(prinseq.out).view()
+  nanofilt(params.input).view()
+  flye_prinseq(prinseq.out).view()
   flye_nanofilt(nanofilt.out).view()
   flye_origin(params.input).view()
   compare(flye_prinseq.out, flye_nanofilt.out, flye_origin.out).view()
