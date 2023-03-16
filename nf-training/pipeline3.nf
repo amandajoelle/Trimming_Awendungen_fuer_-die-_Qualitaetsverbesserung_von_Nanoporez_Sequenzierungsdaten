@@ -11,7 +11,7 @@ params.publishDir = './results'
 
 params.input = "$projectDir/data/test.fastq"
 
-inputs_ch = Channel.fromPath(params.input)
+
 
 
 singularity_prinseq = 'https://depot.galaxyproject.org/singularity/prinseq:0.20.4--hdfd78af_5'
@@ -28,8 +28,8 @@ process prinseq {
   input:
     path inputs
   output:
-    file 'trimmed.fastq' 
-  script:
+    path 'trimmed.fastq'
+  script: 
     """
     prinseq-lite.pl -fastq ${inputs} -out_good trimmed -trim_left 20
     """
@@ -72,12 +72,12 @@ process flye_prinseq {
   //params.input = "$projectDir/results/prinseq/trimmed.fastq" 
   container = singularity_flye
   input:
-    path (params.input)
+    path (prinseq_out)
   output:
-    file 'filtered.fastq' from prinseq 
+    file 'assembly_prinseq.fasta'
   script:
     """
-    flye --nano-raw ${params.input} -o assembly
+    flye --nano-raw ${prinseq_out} -o assembly
     mv assembly/assembly.fasta assembly_prinseq.fasta
     """
 }
@@ -86,12 +86,12 @@ process flye_prinseq {
 process flye_nanofilt {
   container = singularity_flye
   input:
-    path ('filtered.fastq')
+    path(nanofilt_out) 
   output:
     file('assembly_nanofilt.fasta')
   script:
     """
-    flye --nano-raw ${params.input} -o assembly
+    flye --nano-raw ${nanofilt_out} -o assembly
     mv assembly/assembly.fasta assembly_nanofilt.fasta
     """
 }
@@ -103,42 +103,49 @@ process flye_origin {
   container = singularity_flye
 
   input:
-    path inputs
+    path input
+    path prinseq_ch
+    path nanofilt_ch
+
   output:
-    file 'assembly_origin.fasta'
+    file 'assembly_input.fasta'
+    file 'assembly_prinseq_ch.fasta'
+    file 'assembly_nanofilt_ch.fasta'
   script:
     """
-    flye --nano-raw ${inputs} -o assembly
-    mv assembly/assembly.fasta assembly_origin.fasta
+    flye --nano-raw ${input} -o assembly_input
+    flye --nano-raw ${prinseq_ch} -o assembly_prinseq_ch
+    flye --nano-raw ${nanofilt_ch} -o assembly_nanofilt_ch
+    mv assembly_input/assembly.fasta assembly_input.fasta
+    mv assembly_prinseq_ch/assembly.fasta assembly_prinseq_ch.fasta
+    mv assembly_nanofilt_ch/assembly.fasta assembly_nanofilt_ch.fasta
     """
 }
 
 // Étape d'évaluation des fichiers avec quast
 process compare {
+  publishDir "${params.publishDir}/compare", mode: 'copy'
   container = singularity_quast
 
   input:
-    path ('assembly_prinseq.fasta')
-    path ('assembly_nanofilt.fasta')
-    //path ('assembly_origin.fasta')
+    path x 
+    path y 
+    path z
 
   output:
     path "report_dir"
 
   script:
     """
-    quast.py  -o report_dir ${assembly_prinseq.fasta} ${assembly_nanofilt.fasta}  
+    quast.py  -o report_dir ${x} ${y} ${z} 
     """
 }
 
+inputs_ch = Channel.fromPath(params.input) 
 
 workflow {
-  //scatter(params.input)
-  prinseq (inputs_ch).view()
-  //convert(prinseq.out).view()
-  nanofilt(inputs_ch).view()
-  //flye_origin(inputs_ch).view()
-  flye_prinseq(filtered.fastq).view()
-  //flye_nanofilt(nanofilt.out).view()
-  //compare(flye_prinseq.out, flye_nanofilt.out).view()
+  prinseq_ch = prinseq(inputs_ch)
+  nanofilt_ch = nanofilt(inputs_ch)
+  flye_origin_ch = flye_origin(inputs_ch, prinseq_ch, nanofilt_ch)
+  compare(flye_origin_ch)
 }

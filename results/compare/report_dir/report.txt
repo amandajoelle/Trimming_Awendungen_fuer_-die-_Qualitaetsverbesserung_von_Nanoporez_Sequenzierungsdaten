@@ -1,0 +1,25 @@
+All statistics are based on contigs of size >= 500 bp, unless otherwise noted (e.g., "# contigs (>= 0 bp)" and "Total length (>= 0 bp)" include all contigs).
+
+Assembly                    assembly_input  assembly_prinseq_ch  assembly_nanofilt_ch
+# contigs (>= 0 bp)         1               1                    1                   
+# contigs (>= 1000 bp)      1               1                    1                   
+# contigs (>= 5000 bp)      1               1                    1                   
+# contigs (>= 10000 bp)     1               1                    1                   
+# contigs (>= 25000 bp)     1               1                    1                   
+# contigs (>= 50000 bp)     0               0                    0                   
+Total length (>= 0 bp)      48405           48489                48513               
+Total length (>= 1000 bp)   48405           48489                48513               
+Total length (>= 5000 bp)   48405           48489                48513               
+Total length (>= 10000 bp)  48405           48489                48513               
+Total length (>= 25000 bp)  48405           48489                48513               
+Total length (>= 50000 bp)  0               0                    0                   
+# contigs                   1               1                    1                   
+Largest contig              48405           48489                48513               
+Total length                48405           48489                48513               
+GC (%)                      49.85           49.86                49.84               
+N50                         48405           48489                48513               
+N90                         48405           48489                48513               
+auN                         48405.0         48489.0              48513.0             
+L50                         1               1                    1                   
+L90                         1               1                    1                   
+# N's per 100 kbp           0.00            0.00                 0.00                
