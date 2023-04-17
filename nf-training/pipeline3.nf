@@ -20,6 +20,7 @@ singularity_flye = 'https://depot.galaxyproject.org/singularity/flye:2.9--py310h
 singularity_quast = "https://depot.galaxyproject.org/singularity/quast:5.2.0--py39pl5321h2add14b_1"
 
 
+
 // Étape de nettoyage avec prinseq
 process prinseq {
   container = singularity_prinseq
@@ -28,7 +29,7 @@ process prinseq {
   input:
     path inputs
   output:
-    path 'trimmed.fastq'
+    file 'trimmed.fastq'
   script: 
     """
     prinseq-lite.pl -fastq ${inputs} -out_good trimmed -trim_left 20

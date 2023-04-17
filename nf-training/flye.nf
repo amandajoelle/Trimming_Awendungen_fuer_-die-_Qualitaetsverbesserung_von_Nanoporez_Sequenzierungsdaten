@@ -1,11 +1,13 @@
 #!/usr/bin/env nextflow
 
-if (params.imput) {
+/*if (params.imput) {
   params.input = params.imput
 } else {
   println "Erreur : Veuillez spécifier un fichier fastq en utilisant l'option --imput"
   System.exit(1)
-}
+}*/
+
+params.input = "$projectDir/data/test.fastq"
 
 
 singularity = 'https://depot.galaxyproject.org/singularity/flye:2.9--py310h590eda1_1'

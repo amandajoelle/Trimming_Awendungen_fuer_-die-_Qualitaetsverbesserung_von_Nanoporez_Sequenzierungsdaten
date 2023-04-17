@@ -1,11 +1,12 @@
 
+params.input = "$projectDir/data/test.fastq"
 
-if (params.imput) {
+/*if (params.imput) {
   params.input = params.imput
 } else {
   println "Erreur : Veuillez spécifier un fichier fastq en utilisant l'option --imput"
   System.exit(1)
-}
+}*/
 
 
 

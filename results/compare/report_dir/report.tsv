@@ -1,4 +1,4 @@
-Assembly	assembly_input	assembly_prinseq_ch	assembly_nanofilt_ch
+Assembly	assembly_test	assembly_trimmed_test	assembly_filtered_test
 # contigs (>= 0 bp)	1	1	1
 # contigs (>= 1000 bp)	1	1	1
 # contigs (>= 5000 bp)	1	1	1
